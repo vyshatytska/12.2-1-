@@ -1,0 +1,98 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <iomanip>
+#include <fstream>
+using namespace std;
+struct Node
+{
+    Node* next;
+    int data;
+    Node(int _data)
+    {
+        data = _data;
+    }
+};
+struct linked_list
+{
+private:
+    Node* head;
+    int count;
+public:
+    linked_list()
+    {
+        count = 0;
+        head = nullptr;
+    }
+    void push_back(int val)
+    {
+        if (head == nullptr)
+        {
+            head = new Node(val);
+            head->next = nullptr;
+        }
+        else
+        {
+            Node* tmp = head;
+            while (tmp->next != nullptr)
+            {
+                tmp = tmp->next;
+            }
+            tmp->next = new Node(val);
+            tmp->next->next = nullptr;
+        }
+        count++;
+    }
+    int size()
+    {
+        return count;
+    }
+    int& operator[](int iter)
+    {
+        int t = 0;
+        Node* tmp = head;
+        while (tmp != nullptr)
+        {
+            if (t == iter)
+                return tmp->data;
+            tmp = tmp->next;
+            t++;
+        }
+    }
+};
+linked_list create(int size)
+{
+    linked_list output;
+    for (size_t i = 0; i < size; i++)
+        output.push_back(rand() % 10);
+    return output;
+}
+void print(linked_list lst)
+{
+    for (size_t i = 0; i < lst.size(); i++)
+        cout << lst[i] << "  ";
+    cout << endl;
+}
+void task(linked_list lst)
+{
+    int sum = 0;
+    for (int i = 0; i < lst.size() - 1; i++)
+    {
+        if (lst[i] <= lst[i + 1])
+        {
+            cout << "The elements are not sorted" << endl;
+            return;
+        }
+    }
+    cout << "The elements are sorted" << endl;
+}
+void main()
+{
+    int size = 0;
+    cout << "Count of elements in data structure: "; cin >> size;
+    linked_list list = create(size);
+    print(list);
+    cout << "Task: " << endl;
+    task(list);
+    system("pause");
+}
